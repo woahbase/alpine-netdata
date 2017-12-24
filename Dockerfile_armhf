@@ -22,13 +22,10 @@ RUN set -xe \
     && adduser -D -H -u ${PUID} -G netdata netdata \
     && cd /tmp \
     && VERSION=$(curl -jksL https://api.github.com/repos/firehol/netdata/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed -e 's_^v__') \
+    && VERSION="1.8.0" \
 	&& echo "Using version: ${VERSION}" \
     && curl -sSL https://github.com/firehol/netdata/releases/download/v${VERSION}/netdata-${VERSION}.tar.gz | tar xz \
     && cd netdata-${VERSION} \
-# temporary
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
-    && apk add -Uu --purge bash \
-#
     && ./netdata-installer.sh --dont-wait --dont-start-it \
     && apk del autoconf \
         automake \
