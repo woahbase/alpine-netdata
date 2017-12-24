@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bash
+
+exec /usr/sbin/netdata -D -c /etc/netdata/netdata.conf -u netdata -s /host -i 0.0.0.0 -p 19999

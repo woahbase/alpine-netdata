@@ -1,0 +1,43 @@
+ARG ARCH=frommakefile
+ARG DOCKERSRC=frommakefile
+ARG USERNAME=frommakefile
+#
+FROM ${USERNAME}/${DOCKERSRC}:${ARCH}
+#
+ARG PUID=1001
+ARG PGID=1001
+#
+RUN set -xe \
+    && apk add -Uu --no-cache --purge \
+        autoconf \
+        automake \
+        build-base \
+        curl \
+        libmnl-dev \
+        util-linux-dev \
+        zlib-dev \
+        libmnl \
+        libuuid \
+    && addgroup -g ${PGID} netdata \
+    && adduser -D -H -u ${PUID} -G netdata netdata \
+    && cd /tmp \
+    && VERSION=$(curl -jksL https://api.github.com/repos/firehol/netdata/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed -e 's_^v__') \
+	&& echo "Using version: ${VERSION}" \
+    && curl -sSL https://github.com/firehol/netdata/releases/download/v${VERSION}/netdata-${VERSION}.tar.gz | tar xz \
+    && cd netdata-${VERSION} \
+    && ./netdata-installer.sh --dont-wait --dont-start-it \
+    && apk del autoconf \
+        automake \
+        build-base \
+        curl \
+        libmnl-dev \
+        util-linux-dev \
+        zlib-dev \
+    && chown -R netdata:netdata /usr/share/netdata/web /var/lib/netdata /var/cache/netdata /var/log/netdata \
+    && rm -rf /var/cache/apk/* /tmp/*
+#
+COPY root/ /
+#
+EXPOSE 19999
+#
+ENTRYPOINT ["/init"]
