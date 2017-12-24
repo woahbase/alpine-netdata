@@ -12,7 +12,6 @@ RUN set -xe \
         autoconf \
         automake \
         build-base \
-        libtool \
         curl \
         libmnl-dev \
         util-linux-dev \
@@ -27,14 +26,15 @@ RUN set -xe \
     && curl -sSL https://github.com/firehol/netdata/releases/download/v${VERSION}/netdata-${VERSION}.tar.gz | tar xz \
     && cd netdata-${VERSION} \
     && ./netdata-installer.sh --dont-wait --dont-start-it \
+    && mv /bin/bash /bin/bash.orig && ln -s /bin/sh /bin/bash \
     && apk del autoconf \
         automake \
         build-base \
-        libtool \
         curl \
         libmnl-dev \
         util-linux-dev \
         zlib-dev \
+    && rm -f /bin/bash && mv /bin/bash.orig /bin/bash
     && chown -R netdata:netdata /usr/share/netdata/web /var/lib/netdata /var/cache/netdata /var/log/netdata \
     && rm -rf /var/cache/apk/* /tmp/*
 #
