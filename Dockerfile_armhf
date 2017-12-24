@@ -18,6 +18,9 @@ RUN set -xe \
         zlib-dev \
         libmnl \
         libuuid \
+        alpine-sdk \
+        pkgconfig \
+        logrotate \
     && addgroup -g ${PGID} netdata \
     && adduser -D -H -u ${PUID} -G netdata netdata \
     && cd /tmp \
@@ -26,13 +29,16 @@ RUN set -xe \
     && curl -sSL https://github.com/firehol/netdata/releases/download/v${VERSION}/netdata-${VERSION}.tar.gz | tar xz \
     && cd netdata-${VERSION} \
     && ./netdata-installer.sh --dont-wait --dont-start-it \
-    && apk del autoconf \
+    && apk del --purge \
+        autoconf \
         automake \
         build-base \
         curl \
         libmnl-dev \
         util-linux-dev \
         zlib-dev \
+        alpine-sdk \
+        pkgconfig \
     && chown -R netdata:netdata /usr/share/netdata/web /var/lib/netdata /var/cache/netdata /var/log/netdata \
     && rm -rf /var/cache/apk/* /tmp/*
 #
