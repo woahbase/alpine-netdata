@@ -20,7 +20,7 @@ CNTNAME   := $(SVCNAME) # name for container name : docker_name, hostname : name
 
 # {{{ -- flags
 
-BUILDFLAGS := --rm --force-rm --compress -f $(CURDIR)/Dockerfile_$(ARCH) -t $(IMAGETAG) \
+BUILDFLAGS := --rm --force-rm --compress -f $(CURDIR)/Dockerfile_$(ARCH) -t $(IMAGETAG) --cpuset-cpus=0,1 \
 	--build-arg ARCH=$(ARCH) \
 	--build-arg DOCKERSRC=$(DOCKERSRC) \
 	--build-arg USERNAME=$(USERNAME) \
