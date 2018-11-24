@@ -215,7 +215,7 @@ Maintained by [WOAHBase][204].
 [135]: https://my-netdata.io/
 [136]: https://hub.docker.com/r/woahbase/alpine-influxdb
 [137]: https://hub.docker.com/r/woahbase/alpine-grafana
-[138]: https://github.com/firehol/netdata
+[138]: https://github.com/netdata/netdata
 
 [201]: https://github.com/woahbase
 [202]: https://travis-ci.org/woahbase/
