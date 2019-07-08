@@ -1,8 +1,6 @@
-ARG ARCH=frommakefile
 ARG DOCKERSRC=frommakefile
-ARG USERNAME=frommakefile
 #
-FROM ${USERNAME}/${DOCKERSRC}:${ARCH}
+FROM ${DOCKERSRC}
 #
 ARG PUID=1000
 ARG PGID=1000
@@ -29,7 +27,6 @@ RUN set -xe \
     && apk del autoconf \
         automake \
         build-base \
-        curl \
         libmnl-dev \
         util-linux-dev \
         zlib-dev \
